@@ -26,8 +26,9 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209111845260.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209111919563.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209112048761.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209121257779.png">
 <meta property="article:published_time" content="2022-09-10T12:26:30.000Z">
-<meta property="article:modified_time" content="2022-09-11T13:00:20.870Z">
+<meta property="article:modified_time" content="2022-09-12T06:48:25.439Z">
 <meta property="article:author" content="Zikers">
 <meta property="article:tag" content="Java基础">
 <meta name="twitter:card" content="summary_large_image">
@@ -245,7 +246,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k 字
+          3.8k 字
         
       </span>
     
@@ -256,7 +257,7 @@
         
         
         
-          17 分钟
+          32 分钟
         
       </span>
     
@@ -371,9 +372,57 @@
 <h2 id="3-局部内部类"><a href="#3-局部内部类" class="headerlink" title="3. 局部内部类"></a><strong>3. 局部内部类</strong></h2><ul>
 <li>一个类定义在方法内部</li>
 <li>定义在外部类方法中，作用范围和创建对象范围仅限于当前方法</li>
+<li>局部内部类访问外部类当前方法中的局部变量时，无法保证变量的声明周期与自身相同，变量必须修饰为final<ul>
+<li>jdk17以后 会自动加</li>
 </ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Outer</span> &#123;<br>   <span class="hljs-keyword">private</span> <span class="hljs-type">String</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;小明&quot;</span>;<br>   <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-variable">age</span> <span class="hljs-operator">=</span> <span class="hljs-number">20</span>;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">show</span><span class="hljs-params">()</span>&#123;<br>       <span class="hljs-comment">//定义局部变量</span><br>       <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">address</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;深圳&quot;</span>;<br>       <span class="hljs-comment">//定义局部内部类</span><br>       <span class="hljs-keyword">class</span> <span class="hljs-title class_">Inner</span>&#123;<br>           <span class="hljs-keyword">private</span> <span class="hljs-type">String</span> <span class="hljs-variable">phone</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;12345&quot;</span>;<br>           <span class="hljs-keyword">private</span> <span class="hljs-type">String</span> <span class="hljs-variable">email</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;12345@qq.com&quot;</span>;<br>           <span class="hljs-comment">//定义局部类的方法</span><br>           <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">show2</span><span class="hljs-params">()</span>&#123;<br>               <span class="hljs-comment">//访问外部类的属性</span><br>               System.out.println(name);<br>               System.out.println(age);<br>               <span class="hljs-comment">//访问内部类属性</span><br>               System.out.println(phone);<br>               System.out.println(email);<br>               <span class="hljs-comment">//访问局部变量 jdk1.7时，要求变量必须是常量，之后版本可省略</span><br>               System.out.println(address);<br>           &#125;<br>       &#125;<br>       <span class="hljs-comment">//如果没有以下两行代码，这样不会有任何输出结果</span><br>       <span class="hljs-type">Inner</span> <span class="hljs-variable">inner</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Inner</span>();<br>       inner.show2();<br>   &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Outer</span> <span class="hljs-variable">outer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Outer</span>();<br>        outer.show();<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202209121257779.png" srcset="/img/loading.gif" lazyload alt="image-20220912125750346"></p>
 <h2 id="4-匿名内部类"><a href="#4-匿名内部类" class="headerlink" title="4. 匿名内部类"></a><strong>4. 匿名内部类</strong></h2><ul>
 <li>一种特殊内部类，没有名字，在使用接口和抽象类时使用</li>
+<li>没有类名的局部内部类 （一切特征 与局部内部类相同）</li>
+<li>必须继承一个父类，或者实现一个接口</li>
+</ul>
+<h1 id="二、Object类"><a href="#二、Object类" class="headerlink" title="二、Object类"></a>二、Object类</h1><ul>
+<li>超类、基类，所有类的直接间接父类，位于继承树的最顶层</li>
+<li>任何类，如果没有书写extends显示继承某个类，都默认继承的是Object类，否则为间接继承</li>
+<li>Object类所定义的方法，为所有对象都具备的方法</li>
+<li>Object 类型可以存储任何对象<ul>
+<li>作为参数，接受任何对象 </li>
+<li>作为返回值，可以返回任何对象</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-getclass-方法"><a href="#1-getclass-方法" class="headerlink" title="1. getclass()方法"></a>1. getclass()方法</h2><p>返回引用中存储的实际对象类型。可以应用在判断两个引用中实际存储的对象类型是否一致。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-type">Student</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>(<span class="hljs-string">&quot;小明&quot;</span>,<span class="hljs-number">11</span>);<br>    <span class="hljs-type">Student</span> <span class="hljs-variable">s2</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>(<span class="hljs-string">&quot;小红&quot;</span>,<span class="hljs-number">21</span>);<br>    <span class="hljs-comment">//System.out.println(s1.getClass());</span><br>    <span class="hljs-comment">//System.out.println(s2.getClass());</span><br>    <span class="hljs-keyword">if</span>(s1.getClass() == s2.getClass())<br>        System.out.println(<span class="hljs-string">&quot;同一个类型&quot;</span>);<br>&#125;<br><span class="hljs-comment">//输出为同一类型</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="2-hashCode-方法"><a href="#2-hashCode-方法" class="headerlink" title="2. hashCode()方法"></a>2. hashCode()方法</h2><ul>
+<li>返回类型为int型</li>
+<li>返回该对象的哈希码值</li>
+<li>哈希值是根据对象的地址或字符串、数字使用hash算法计算出来的int型数值</li>
+<li>一般请款下相同对象返回相同哈希码<ul>
+<li>所以以此来判断两个对象是否为同一个</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-type">Student</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>(<span class="hljs-string">&quot;小明&quot;</span>,<span class="hljs-number">11</span>);<br>    <span class="hljs-type">Student</span> <span class="hljs-variable">s2</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">Student</span>(<span class="hljs-string">&quot;小红&quot;</span>,<span class="hljs-number">21</span>);<br>    System.out.println(s1.hashCode());<br>    System.out.println(s2.hashCode());<br>    <span class="hljs-type">Student</span> <span class="hljs-variable">s3</span> <span class="hljs-operator">=</span> s2;<br>    System.out.println(s3.hashCode());<br>&#125;<br><span class="hljs-comment">//输出</span><br><span class="hljs-number">1915318863</span> <span class="hljs-comment">//s1</span><br><span class="hljs-number">1283928880</span> <span class="hljs-comment">//s2</span><br><span class="hljs-number">1283928880</span> <span class="hljs-comment">//s3</span><br></code></pre></td></tr></table></figure>
+
+<p>由上可以看出 s2,s3是一个</p>
+<h2 id="3-toString-方法"><a href="#3-toString-方法" class="headerlink" title="3. toString() 方法"></a>3. toString() 方法</h2><ul>
+<li><p>返回类型为字符串形式</p>
+</li>
+<li><p>可以根据程序需求覆盖该方法(重写)</p>
+</li>
+<li><p>展示为包类名@地址</p>
+</li>
+</ul>
+<p> &#x2F;&#x2F;记录快速生成方法快捷键 ： alt+insert</p>
+<h2 id="4-eaquals-方法"><a href="#4-eaquals-方法" class="headerlink" title="4. eaquals()方法"></a>4. eaquals()方法</h2><ul>
+<li>放回布尔类型</li>
+<li>比较对象地址是否相同</li>
+<li>对其进行重写，判断两个对象内容是否一致</li>
 </ul>
 
                 

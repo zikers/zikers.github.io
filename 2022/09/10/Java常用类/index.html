@@ -27,8 +27,9 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209111919563.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209112048761.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209121257779.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209152008480.png">
 <meta property="article:published_time" content="2022-09-10T12:26:30.000Z">
-<meta property="article:modified_time" content="2022-09-12T06:48:25.439Z">
+<meta property="article:modified_time" content="2022-09-15T12:36:38.011Z">
 <meta property="article:author" content="Zikers">
 <meta property="article:tag" content="Java基础">
 <meta name="twitter:card" content="summary_large_image">
@@ -246,7 +247,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.8k 字
+          4.2k 字
         
       </span>
     
@@ -257,7 +258,7 @@
         
         
         
-          32 分钟
+          35 分钟
         
       </span>
     
@@ -424,7 +425,33 @@
 <li>比较对象地址是否相同</li>
 <li>对其进行重写，判断两个对象内容是否一致</li>
 </ul>
-
+<h2 id="5-finalize-方法"><a href="#5-finalize-方法" class="headerlink" title="5.finalize()方法"></a>5.finalize()方法</h2><ul>
+<li>比较特殊，自己不会调用</li>
+<li>当对象背判定为垃圾对象时，JVM自动调用 此方法，用以标记垃圾对象，进入回收队列</li>
+<li>垃圾对象：没有有效引用指向此对象，为垃圾对象</li>
+<li>垃圾回收：由GC销毁垃圾对象，释放数据存储空间</li>
+</ul>
+<h1 id="三、包装类"><a href="#三、包装类" class="headerlink" title="三、包装类"></a>三、包装类</h1><h2 id="1-包装类概述"><a href="#1-包装类概述" class="headerlink" title="1.包装类概述"></a>1.包装类概述</h2><p><strong>Java八个基本类型</strong>（四类八种）</p>
+<ul>
+<li><p>整型（4个）： byte、short、int、long</p>
+</li>
+<li><p>浮点型（2个）：float、double</p>
+</li>
+<li><p>字符（1个）： char</p>
+</li>
+<li><p>布尔类型:（1个）： boolean</p>
+</li>
+</ul>
+<p>程序运行两个空间，一个堆，一个栈，基本类型都存在于栈中，引用类型数据在堆中。栈中存对象的地址</p>
+<p><strong>包装类：</strong></p>
+<ul>
+<li>基本数据类型所对应的引用数据类型</li>
+<li>Object可统一所有数据，包装类的默认值为null</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202209152008480.png" srcset="/img/loading.gif" lazyload alt="image-20220915200838013"></p>
+<h2 id="2-类型转换和装箱、拆箱"><a href="#2-类型转换和装箱、拆箱" class="headerlink" title="2.类型转换和装箱、拆箱"></a>2.类型转换和装箱、拆箱</h2><p><strong>装箱</strong>：一个基本类型数据（在栈中），要把它转化为引用类型（放入堆中），这种转化操作叫做装箱</p>
+<p><strong>拆箱</strong>：与上述装箱操作相反</p>
+<h2 id="3-基本类型与字符串之间转换"><a href="#3-基本类型与字符串之间转换" class="headerlink" title="3.基本类型与字符串之间转换"></a>3.基本类型与字符串之间转换</h2>
                 
               </div>
             

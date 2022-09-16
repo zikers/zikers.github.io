@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209121257779.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209152008480.png">
 <meta property="article:published_time" content="2022-09-10T12:26:30.000Z">
-<meta property="article:modified_time" content="2022-09-15T12:36:38.011Z">
+<meta property="article:modified_time" content="2022-09-16T07:16:09.726Z">
 <meta property="article:author" content="Zikers">
 <meta property="article:tag" content="Java基础">
 <meta name="twitter:card" content="summary_large_image">
@@ -247,7 +247,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.2k 字
+          5.7k 字
         
       </span>
     
@@ -258,7 +258,7 @@
         
         
         
-          35 分钟
+          48 分钟
         
       </span>
     
@@ -451,7 +451,27 @@
 <p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202209152008480.png" srcset="/img/loading.gif" lazyload alt="image-20220915200838013"></p>
 <h2 id="2-类型转换和装箱、拆箱"><a href="#2-类型转换和装箱、拆箱" class="headerlink" title="2.类型转换和装箱、拆箱"></a>2.类型转换和装箱、拆箱</h2><p><strong>装箱</strong>：一个基本类型数据（在栈中），要把它转化为引用类型（放入堆中），这种转化操作叫做装箱</p>
 <p><strong>拆箱</strong>：与上述装箱操作相反</p>
-<h2 id="3-基本类型与字符串之间转换"><a href="#3-基本类型与字符串之间转换" class="headerlink" title="3.基本类型与字符串之间转换"></a>3.基本类型与字符串之间转换</h2>
+<p><strong>在jdk1.5之前，只能进行如下操作，进行装箱和拆箱，在jdk1.5之后，就可以进行自动装箱拆箱操作，使代码更加的简洁。</strong></p>
+<p><em>jdk1.5之前：</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br>        <span class="hljs-comment">//进行装箱：基本类型转化为引用类型的操作</span><br>        <span class="hljs-type">Integer</span> <span class="hljs-variable">integer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Integer</span>(num);<span class="hljs-comment">//方法1</span><br>        <span class="hljs-type">Integer</span> <span class="hljs-variable">integer1</span> <span class="hljs-operator">=</span> Integer.valueOf(num);<span class="hljs-comment">//方法2</span><br>        System.out.println(integer);<br>        System.out.println(integer1);<br><br>        System.out.println(<span class="hljs-string">&quot;-------------------------&quot;</span>);<br>        <br>        <span class="hljs-type">Integer</span> <span class="hljs-variable">integer2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Integer</span>(<span class="hljs-number">100</span>);<br>        <span class="hljs-comment">//进行拆箱：将引用类型转化为基本类型</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">num1</span> <span class="hljs-operator">=</span> integer2.intValue();<br>        System.out.println(num1);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>jdk1.5之后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Integer</span> <span class="hljs-variable">integer</span> <span class="hljs-operator">=</span> num;<br><span class="hljs-type">int</span> <span class="hljs-variable">num1</span> <span class="hljs-operator">=</span> integer2;<br></code></pre></td></tr></table></figure>
+
+<p>直接这样复制即可，不用像之前那样调用方法。但是在运行时，是在动将方法调用了的。<strong>反汇编的代码和jdk1.5之前相同。</strong></p>
+<p>自动装箱其实调用了 Integer.valueof()方法</p>
+<h2 id="3-基本类型与字符串之间转换"><a href="#3-基本类型与字符串之间转换" class="headerlink" title="3.基本类型与字符串之间转换"></a>3.基本类型与字符串之间转换</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>       <span class="hljs-comment">//1.基本类型转化为字符串</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">n1</span> <span class="hljs-operator">=</span> <span class="hljs-number">100</span>;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> n1 + <span class="hljs-string">&quot;&quot;</span>;<span class="hljs-comment">//方法1：直接加引号转变为字符串</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">s2</span> <span class="hljs-operator">=</span> Integer.toString(n1);<span class="hljs-comment">//使用Integer封装的方法</span><br>        System.out.println(s1);<br>        System.out.println(s2);<br><br>        <span class="hljs-comment">//2.字符串转化为基本类型</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">str</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;150&quot;</span>;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> Integer.parseInt(str);<span class="hljs-comment">//使用封装的parsexxx()方法</span><br>        System.out.println(num);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>总结：</strong>其实转换时均是使用了包装类型里的方法。包装类型里提供了转化为其他类型的方法。</p>
+<p><strong>特殊的布尔类型转换如下：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>       <span class="hljs-comment">//boolean字符串形式转化为基本类型 “true”--&gt;true  非true均转为false</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;true&quot;</span>;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;ture&quot;</span>;<br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">b</span> <span class="hljs-operator">=</span> Boolean.parseBoolean(s);<br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">b1</span> <span class="hljs-operator">=</span> Boolean.parseBoolean(s1);<br>        System.out.println(b);<br>        System.out.println(b1);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//输出</span><br><span class="hljs-comment">//true</span><br><span class="hljs-comment">//false</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>总结：</strong> 当要转换的字符串为true时，其转换为布尔类型为true;当是除了true的其他字符串时，转换为布尔类型均为false。</p>
+<h2 id="4-Integer缓冲区问题"><a href="#4-Integer缓冲区问题" class="headerlink" title="4.Integer缓冲区问题"></a>4.Integer缓冲区问题</h2><ul>
+<li>Java预先创建了 256个常用的整数包装类型对象</li>
+<li>在实际应用过程中，对已创建的对象进行复用。</li>
+</ul>
+
                 
               </div>
             

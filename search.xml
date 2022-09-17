@@ -4,25 +4,25 @@
   
     
     <entry>
-      <title>python类入门</title>
-      <link href="/2022/09/17/python%E7%B1%BB%E5%85%A5%E9%97%A8/"/>
-      <url>/2022/09/17/python%E7%B1%BB%E5%85%A5%E9%97%A8/</url>
+      <title>class中_init_()方法详解</title>
+      <link href="/2022/09/17/class%E4%B8%AD_init_()%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/"/>
+      <url>/2022/09/17/class%E4%B8%AD_init_()%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/</url>
       
-        <content type="html"><![CDATA[<p>1233</p>]]></content>
+        <content type="html"><![CDATA[<h1 id="init-详解"><a href="#init-详解" class="headerlink" title="__ init __()详解"></a>__ init __()详解</h1><h2 id="1-init-是什么"><a href="#1-init-是什么" class="headerlink" title="1._ init _()是什么"></a>1._ <em>init</em> _()是什么</h2><ul><li>跟java中类的构造函数类似。能够对类中成员进行初始化操作</li><li>在实例化时，可直接用类似构造函数的形式赋值</li></ul><p><strong>init()方法有两个方面的重大意义：</strong></p><p>​<strong>1. 在对象生命周期中初始化；每个对象必须正确初始化后才能正常工作。</strong></p><p>​<strong>2. init()参数值可以有多种形式。</strong></p><h1 id="2-代码实例"><a href="#2-代码实例" class="headerlink" title="2.代码实例"></a>2.代码实例</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, num_id, name, age</span>):<br>        self.num_id = num_id<br>        self.name = name<br>        self.age = age<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">print_info</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(self.name)<br>        <span class="hljs-built_in">print</span>(self.age)<br><br><br>s1 = Student(<span class="hljs-number">123</span>, <span class="hljs-string">&quot;tom&quot;</span>, <span class="hljs-number">21</span>)<br>s1.print_info()<br></code></pre></td></tr></table></figure><p>本人初学者，总结以下几点：</p><ul><li><p>init()函数不是必须要写的</p></li><li><p>定义的init()函数相当于java的构造函数，可直接像上述代码<code>s1 = Student(123, &quot;tom&quot;, 21)</code> 这样实例化使用。没有的话，就不能这样初始化赋值</p></li><li><p>以<code>self.num_id = num_id</code>为例。是没有强制要求等号前后的名称必须一致的。self.xxx这里是类中的成员变量，而等号后的xxx是传进来的参数。为了好记和增强可读性，才会如此。</p></li><li><p>另外，__ init() __函数在创建对象时，是自动调用的。</p></li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span>:<br>    def <span class="hljs-title function_">__init__</span><span class="hljs-params">(self, num_id, name, age)</span>:<br>        self.num_id = num_id<br>        self.name = name<br>        self.age = age<br>        <span class="hljs-title function_">print</span><span class="hljs-params">(<span class="hljs-string">&quot;hello&quot;</span> + self.name + <span class="hljs-string">&quot;!&quot;</span>)</span><br><br>s1 = Student(<span class="hljs-number">123</span>, <span class="hljs-string">&quot;tom&quot;</span>, <span class="hljs-number">21</span>)<br><span class="hljs-comment">//输出</span><br><span class="hljs-comment">//hellotom!           </span><br></code></pre></td></tr></table></figure><p>在创建对象时，调用init()，打印了helloxxx。当然，实际中是不建议这样操作的，我们可以写一个方法来实现类似功能。</p><p>那么用或者不用__ init __的区别在哪里呢？</p><ul><li>当使用这个“构造函数”时，可以在创建对象时自动初始化。如果不用时，就只能通过对象.属性进行赋值操作了。</li><li>有构造函数初始化时，必须进行传值操作，否则就会报错。而无构造函数时，可以是一个空结构，随着输入赋值而添加相应数据</li></ul><p><strong>注：</strong>__ dict __  可打印所有成员变量的字典格式</p>]]></content>
       
       
       <categories>
           
           <category> python </category>
           
-          <category> 类 </category>
+          <category> __init__()详解 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> python </tag>
+            <tag> python类学习 </tag>
             
         </tags>
       

@@ -24,7 +24,7 @@
 <meta property="og:description" content="__ init __()详解1._ init _()是什么 跟java中类的构造函数类似。能够对类中成员进行初始化操作 在实例化时，可直接用类似构造函数的形式赋值  init()方法有两个方面的重大意义： ​	1. 在对象生命周期中初始化；每个对象必须正确初始化后才能正常工作。 ​	2. init()参数值可以有多种形式。 2.代码实例12345678910111213class Student:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-17T05:38:39.000Z">
-<meta property="article:modified_time" content="2022-09-17T08:06:12.542Z">
+<meta property="article:modified_time" content="2022-09-17T12:00:45.447Z">
 <meta property="article:author" content="Zikers">
 <meta property="article:tag" content="python类学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -313,7 +313,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 分钟前
+                    本文最后更新于：23 分钟前
                   
                 
               </p>
@@ -341,7 +341,7 @@
 <li><p>另外，__ init() __函数在创建对象时，是自动调用的。</p>
 </li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span>:<br>    def <span class="hljs-title function_">__init__</span><span class="hljs-params">(self, num_id, name, age)</span>:<br>        self.num_id = num_id<br>        self.name = name<br>        self.age = age<br>        <span class="hljs-title function_">print</span><span class="hljs-params">(<span class="hljs-string">&quot;hello&quot;</span> + self.name + <span class="hljs-string">&quot;!&quot;</span>)</span><br><br>s1 = Student(<span class="hljs-number">123</span>, <span class="hljs-string">&quot;tom&quot;</span>, <span class="hljs-number">21</span>)<br><span class="hljs-comment">//输出</span><br><span class="hljs-comment">//hellotom!           </span><br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, num_id, name, age</span>):<br>        self.num_id = num_id<br>        self.name = name<br>        self.age = age<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;hello&quot;</span> + self.name + <span class="hljs-string">&quot;!&quot;</span>)<br><br>s1 = Student(<span class="hljs-number">123</span>, <span class="hljs-string">&quot;tom&quot;</span>, <span class="hljs-number">21</span>)<br>//输出<br>//hellotom!           <br></code></pre></td></tr></table></figure>
 
 <p>在创建对象时，调用init()，打印了helloxxx。当然，实际中是不建议这样操作的，我们可以写一个方法来实现类似功能。</p>
 <p>那么用或者不用__ init __的区别在哪里呢？</p>

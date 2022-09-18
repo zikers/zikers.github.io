@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>python列表转为字典</title>
+    <link href="/2022/09/18/python%E5%88%97%E8%A1%A8%E8%BD%AC%E4%B8%BA%E5%AD%97%E5%85%B8/"/>
+    <url>/2022/09/18/python%E5%88%97%E8%A1%A8%E8%BD%AC%E4%B8%BA%E5%AD%97%E5%85%B8/</url>
+    
+    <content type="html"><![CDATA[<h1 id="将列表转化为字典"><a href="#将列表转化为字典" class="headerlink" title="将列表转化为字典"></a>将列表转化为字典</h1><p>一、两个列表对应转化为键值对</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">list1 = [<span class="hljs-string">&#x27;one&#x27;</span>, <span class="hljs-string">&#x27;two&#x27;</span>, <span class="hljs-string">&#x27;three&#x27;</span>, <span class="hljs-string">&#x27;four&#x27;</span>, <span class="hljs-string">&#x27;five&#x27;</span>]<br>list2 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]<br>dict1 = <span class="hljs-built_in">zip</span>(list1, list2)<br>dict2 = <span class="hljs-built_in">dict</span>(dict1)<br><span class="hljs-built_in">print</span>(dict2)<br><span class="hljs-comment">#&#123;&#x27;one&#x27;: 1, &#x27;two&#x27;: 2, &#x27;three&#x27;: 3, &#x27;four&#x27;: 4, &#x27;five&#x27;: 5&#125;</span><br></code></pre></td></tr></table></figure><p>注：<strong>该方法会自动对齐两个列表。比如其中一个列表长度为5，另一个列表长度为6，经测试发现，只会以长度小的为准，组成新的字典。</strong></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>python</category>
+      
+      <category>字典</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>python基础</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>python字典</title>
     <link href="/2022/09/17/python%E5%AD%97%E5%85%B8/"/>
     <url>/2022/09/17/python%E5%AD%97%E5%85%B8/</url>
@@ -22,7 +49,7 @@
     
     <tags>
       
-      <tag>python字典</tag>
+      <tag>python基础</tag>
       
     </tags>
     
@@ -49,7 +76,7 @@
     
     <tags>
       
-      <tag>python类学习</tag>
+      <tag>python基础</tag>
       
     </tags>
     

@@ -16,24 +16,27 @@
   <meta name="author" content="Zikers">
   <meta name="keywords" content="">
   
-    <meta name="description" content="__ init __()详解1._ init _()是什么 跟java中类的构造函数类似。能够对类中成员进行初始化操作 在实例化时，可直接用类似构造函数的形式赋值  init()方法有两个方面的重大意义： ​	1. 在对象生命周期中初始化；每个对象必须正确初始化后才能正常工作。 ​	2. init()参数值可以有多种形式。 2.代码实例12345678910111213class Student:">
+    <meta name="description" content="Scrapy框架入门一、scrapy框架初识1.什么是框架  一个集成了很多功能并且具有很多通用性的一个项目模板  2.如何学习框架  首先学习框架的各个功能的详细用法 后面可以再读源码  3.什么是scrapy框架  爬虫中封装好的一个明星框架 封装多种功能 高性能的持久化存储 异步的数据下载 高性能的数据解析 分布式    二、scrapy环境安装windows安装  pip install">
 <meta property="og:type" content="article">
-<meta property="og:title" content="class中_init_()方法详解">
-<meta property="og:url" content="http://example.com/2022/09/17/class%E4%B8%AD_init_()%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:title" content="scapy框架（一）">
+<meta property="og:url" content="http://example.com/2022/09/23/scrapy%E6%A1%86%E6%9E%B6%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
 <meta property="og:site_name" content="zikers的博客">
-<meta property="og:description" content="__ init __()详解1._ init _()是什么 跟java中类的构造函数类似。能够对类中成员进行初始化操作 在实例化时，可直接用类似构造函数的形式赋值  init()方法有两个方面的重大意义： ​	1. 在对象生命周期中初始化；每个对象必须正确初始化后才能正常工作。 ​	2. init()参数值可以有多种形式。 2.代码实例12345678910111213class Student:">
+<meta property="og:description" content="Scrapy框架入门一、scrapy框架初识1.什么是框架  一个集成了很多功能并且具有很多通用性的一个项目模板  2.如何学习框架  首先学习框架的各个功能的详细用法 后面可以再读源码  3.什么是scrapy框架  爬虫中封装好的一个明星框架 封装多种功能 高性能的持久化存储 异步的数据下载 高性能的数据解析 分布式    二、scrapy环境安装windows安装  pip install">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-09-17T05:38:39.000Z">
-<meta property="article:modified_time" content="2022-09-18T08:12:28.943Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209231505661.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209231504302.png">
+<meta property="article:published_time" content="2022-09-23T06:09:48.000Z">
+<meta property="article:modified_time" content="2022-09-23T13:34:15.506Z">
 <meta property="article:author" content="Zikers">
-<meta property="article:tag" content="python基础">
+<meta property="article:tag" content="爬虫">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209231505661.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>class中_init_()方法详解 - zikers的博客</title>
+  <title>scapy框架（一） - zikers的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +216,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="class中_init_()方法详解"></span>
+            <span id="subtitle" data-typed-text="scapy框架（一）"></span>
           
         </div>
 
@@ -229,8 +232,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-09-17 13:38" pubdate>
-          2022年9月17日 下午
+        <time datetime="2022-09-23 14:09" pubdate>
+          2022年9月23日 下午
         </time>
       </span>
     
@@ -241,7 +244,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          887 字
         
       </span>
     
@@ -252,7 +255,7 @@
         
         
         
-          9 分钟
+          8 分钟
         
       </span>
     
@@ -308,12 +311,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">class中_init_()方法详解</h1>
+            <h1 style="display: none">scapy框架（一）</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：5 天前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -321,36 +324,68 @@
             
               <div class="markdown-body">
                 
-                <h1 id="init-详解"><a href="#init-详解" class="headerlink" title="__ init __()详解"></a>__ init __()详解</h1><h1 id="1-init-是什么"><a href="#1-init-是什么" class="headerlink" title="1._ init _()是什么"></a>1._ <em>init</em> _()是什么</h1><ul>
-<li>跟java中类的构造函数类似。能够对类中成员进行初始化操作</li>
-<li>在实例化时，可直接用类似构造函数的形式赋值</li>
-</ul>
-<p><strong>init()方法有两个方面的重大意义：</strong></p>
-<p>​	<strong>1. 在对象生命周期中初始化；每个对象必须正确初始化后才能正常工作。</strong></p>
-<p>​	<strong>2. init()参数值可以有多种形式。</strong></p>
-<h1 id="2-代码实例"><a href="#2-代码实例" class="headerlink" title="2.代码实例"></a>2.代码实例</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, num_id, name, age</span>):<br>        self.num_id = num_id<br>        self.name = name<br>        self.age = age<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">print_info</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">print</span>(self.name)<br>        <span class="hljs-built_in">print</span>(self.age)<br><br><br>s1 = Student(<span class="hljs-number">123</span>, <span class="hljs-string">&quot;tom&quot;</span>, <span class="hljs-number">21</span>)<br>s1.print_info()<br></code></pre></td></tr></table></figure>
-
-<p>本人初学者，总结以下几点：</p>
+                <h1 id="Scrapy框架入门"><a href="#Scrapy框架入门" class="headerlink" title="Scrapy框架入门"></a>Scrapy框架入门</h1><h1 id="一、scrapy框架初识"><a href="#一、scrapy框架初识" class="headerlink" title="一、scrapy框架初识"></a>一、scrapy框架初识</h1><p><strong>1.什么是框架</strong></p>
 <ul>
-<li><p>init()函数不是必须要写的</p>
-</li>
-<li><p>定义的init()函数相当于java的构造函数，可直接像上述代码<code>s1 = Student(123, &quot;tom&quot;, 21)</code> 这样实例化使用。没有的话，就不能这样初始化赋值</p>
-</li>
-<li><p>以<code>self.num_id = num_id</code>为例。是没有强制要求等号前后的名称必须一致的。self.xxx这里是类中的成员变量，而等号后的xxx是传进来的参数。为了好记和增强可读性，才会如此。</p>
-</li>
-<li><p>另外，__ init() __函数在创建对象时，是自动调用的。</p>
-</li>
+<li>一个集成了很多功能并且具有很多通用性的一个项目模板</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Student</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, num_id, name, age</span>):<br>        self.num_id = num_id<br>        self.name = name<br>        self.age = age<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;hello&quot;</span> + self.name + <span class="hljs-string">&quot;!&quot;</span>)<br><br>s1 = Student(<span class="hljs-number">123</span>, <span class="hljs-string">&quot;tom&quot;</span>, <span class="hljs-number">21</span>)<br>//输出<br>//hellotom!           <br></code></pre></td></tr></table></figure>
-
-<p>在创建对象时，调用init()，打印了helloxxx。当然，实际中是不建议这样操作的，我们可以写一个方法来实现类似功能。</p>
-<p>那么用或者不用__ init __的区别在哪里呢？</p>
+<p><strong>2.如何学习框架</strong></p>
 <ul>
-<li>当使用这个“构造函数”时，可以在创建对象时自动初始化。如果不用时，就只能通过对象.属性进行赋值操作了。</li>
-<li>有构造函数初始化时，必须进行传值操作，否则就会报错。而无构造函数时，可以是一个空结构，随着输入赋值而添加相应数据</li>
+<li>首先学习框架的各个功能的详细用法</li>
+<li>后面可以再读源码</li>
 </ul>
-<p><strong>注：</strong>__ dict __  可打印所有成员变量的字典格式</p>
-
+<p><strong>3.什么是scrapy框架</strong></p>
+<ul>
+<li>爬虫中封装好的一个明星框架</li>
+<li>封装多种功能<ul>
+<li>高性能的持久化存储</li>
+<li>异步的数据下载</li>
+<li>高性能的数据解析</li>
+<li>分布式</li>
+</ul>
+</li>
+</ul>
+<h1 id="二、scrapy环境安装"><a href="#二、scrapy环境安装" class="headerlink" title="二、scrapy环境安装"></a>二、scrapy环境安装</h1><p><strong>windows安装</strong></p>
+<ul>
+<li>pip install  wheel </li>
+<li>下载 twisted 为了实现scrpy中的异步下载<ul>
+<li><a target="_blank" rel="noopener" href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#twisted">http://www.lfd.uci.edu/~gohlke/pythonlibs/#twisted</a></li>
+</ul>
+</li>
+<li>安装twisted  pip install  xxx.whl</li>
+<li>pip install pywin32</li>
+<li>pip install scrapy</li>
+</ul>
+<p>安装好，终端输入scrapy报错。<code>AttributeError: module &#39;OpenSSL.SSL&#39; has no attribute &#39;TLS_METHOD&#39;</code></p>
+<p>解决办法：uninstall pyopenssl即可。然后重新install</p>
+<h1 id="三、scrapy基本使用"><a href="#三、scrapy基本使用" class="headerlink" title="三、scrapy基本使用"></a>三、scrapy基本使用</h1><p>1.创建一个工程： scrapy  startproject  name</p>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202209231505661.png" srcset="/img/loading.gif" lazyload alt="image-20220923150550351"></p>
+<p>spiders子目录下放一个爬虫文件</p>
+<p>settings.py是当前工程对应的配置文件</p>
+<p>2.在spiders子目录下创建一个爬虫文件</p>
+<ul>
+<li><p>scrapy genspider first <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a></p>
+<ul>
+<li>在工程文件夹下使用本条命令</li>
+</ul>
+</li>
+</ul>
+<p>3.执行工程</p>
+<ul>
+<li>scrapy crawl spiderName(即 first)</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202209231504302.png" srcset="/img/loading.gif" lazyload alt="image-20220923150442800"></p>
+<ul>
+<li><p>name是爬虫的文件名称:爬虫源文件唯一标识</p>
+</li>
+<li><p>allowed_domains是允许的域名，用来限定 start_urls列表中那些URL可以进行请求和发送</p>
+</li>
+<li><p>start_urls是起始的url ，列表中存放的URL会被Scrapy自动进行请求发送</p>
+</li>
+<li><p>parse(self,response)函数： 用作于解析数据：response参数表示请求成功后对应的响应对象</p>
+</li>
+</ul>
+<p>注：当程序运行时，会直接对列表的url进行访问，同时调用parse()获取返回值。如果url列表里有两个url，则调用了两次parse()函数</p>
+<h1 id="四、scrapy数据解析"><a href="#四、scrapy数据解析" class="headerlink" title="四、scrapy数据解析"></a>四、scrapy数据解析</h1>
                 
               </div>
             
@@ -368,12 +403,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/python/" class="category-chain-item">python</a>
+  <a href="/categories/%E7%88%AC%E8%99%AB/" class="category-chain-item">爬虫</a>
   
   
     <span>></span>
     
-  <a href="/categories/python/%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="category-chain-item">类与对象</a>
+  <a href="/categories/%E7%88%AC%E8%99%AB/scrapy/" class="category-chain-item">scrapy</a>
   
   
 
@@ -390,7 +425,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/python%E5%9F%BA%E7%A1%80/">#python基础</a>
+        <a href="/tags/%E7%88%AC%E8%99%AB/">#爬虫</a>
       
     </div>
   
@@ -404,18 +439,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/09/17/python%E5%AD%97%E5%85%B8/" title="python字典">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">python字典</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/09/10/Java%E5%B8%B8%E7%94%A8%E7%B1%BB/" title="Java常用类">
-                        <span class="hidden-mobile">Java常用类</span>
+                      <a href="/2022/09/18/python%E5%88%97%E8%A1%A8%E8%BD%AC%E4%B8%BA%E5%AD%97%E5%85%B8/" title="python列表转为字典">
+                        <span class="hidden-mobile">python列表转为字典</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

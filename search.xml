@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>scapy框架（一）</title>
+      <link href="/2022/09/23/scrapy%E6%A1%86%E6%9E%B6%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+      <url>/2022/09/23/scrapy%E6%A1%86%E6%9E%B6%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Scrapy框架入门"><a href="#Scrapy框架入门" class="headerlink" title="Scrapy框架入门"></a>Scrapy框架入门</h1><h1 id="一、scrapy框架初识"><a href="#一、scrapy框架初识" class="headerlink" title="一、scrapy框架初识"></a>一、scrapy框架初识</h1><p><strong>1.什么是框架</strong></p><ul><li>一个集成了很多功能并且具有很多通用性的一个项目模板</li></ul><p><strong>2.如何学习框架</strong></p><ul><li>首先学习框架的各个功能的详细用法</li><li>后面可以再读源码</li></ul><p><strong>3.什么是scrapy框架</strong></p><ul><li>爬虫中封装好的一个明星框架</li><li>封装多种功能<ul><li>高性能的持久化存储</li><li>异步的数据下载</li><li>高性能的数据解析</li><li>分布式</li></ul></li></ul><h1 id="二、scrapy环境安装"><a href="#二、scrapy环境安装" class="headerlink" title="二、scrapy环境安装"></a>二、scrapy环境安装</h1><p><strong>windows安装</strong></p><ul><li>pip install  wheel </li><li>下载 twisted 为了实现scrpy中的异步下载<ul><li><a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#twisted">http://www.lfd.uci.edu/~gohlke/pythonlibs/#twisted</a></li></ul></li><li>安装twisted  pip install  xxx.whl</li><li>pip install pywin32</li><li>pip install scrapy</li></ul><p>安装好，终端输入scrapy报错。<code>AttributeError: module &#39;OpenSSL.SSL&#39; has no attribute &#39;TLS_METHOD&#39;</code></p><p>解决办法：uninstall pyopenssl即可。然后重新install</p><h1 id="三、scrapy基本使用"><a href="#三、scrapy基本使用" class="headerlink" title="三、scrapy基本使用"></a>三、scrapy基本使用</h1><p>1.创建一个工程： scrapy  startproject  name</p><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202209231505661.png" alt="image-20220923150550351"></p><p>spiders子目录下放一个爬虫文件</p><p>settings.py是当前工程对应的配置文件</p><p>2.在spiders子目录下创建一个爬虫文件</p><ul><li><p>scrapy genspider first <a href="http://www.baidu.com/">www.baidu.com</a></p><ul><li>在工程文件夹下使用本条命令</li></ul></li></ul><p>3.执行工程</p><ul><li>scrapy crawl spiderName(即 first)</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202209231504302.png" alt="image-20220923150442800"></p><ul><li><p>name是爬虫的文件名称:爬虫源文件唯一标识</p></li><li><p>allowed_domains是允许的域名，用来限定 start_urls列表中那些URL可以进行请求和发送</p></li><li><p>start_urls是起始的url ，列表中存放的URL会被Scrapy自动进行请求发送</p></li><li><p>parse(self,response)函数： 用作于解析数据：response参数表示请求成功后对应的响应对象</p></li></ul><p>注：当程序运行时，会直接对列表的url进行访问，同时调用parse()获取返回值。如果url列表里有两个url，则调用了两次parse()函数</p><h1 id="四、scrapy数据解析"><a href="#四、scrapy数据解析" class="headerlink" title="四、scrapy数据解析"></a>四、scrapy数据解析</h1>]]></content>
+      
+      
+      <categories>
+          
+          <category> 爬虫 </category>
+          
+          <category> scrapy </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 爬虫 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>python列表转为字典</title>
       <link href="/2022/09/18/python%E5%88%97%E8%A1%A8%E8%BD%AC%E4%B8%BA%E5%AD%97%E5%85%B8/"/>
       <url>/2022/09/18/python%E5%88%97%E8%A1%A8%E8%BD%AC%E4%B8%BA%E5%AD%97%E5%85%B8/</url>

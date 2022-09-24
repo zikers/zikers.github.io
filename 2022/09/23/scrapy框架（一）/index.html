@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209231505661.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202209231504302.png">
 <meta property="article:published_time" content="2022-09-23T06:09:48.000Z">
-<meta property="article:modified_time" content="2022-09-23T13:34:15.506Z">
+<meta property="article:modified_time" content="2022-09-24T10:07:44.035Z">
 <meta property="article:author" content="Zikers">
 <meta property="article:tag" content="爬虫">
 <meta name="twitter:card" content="summary_large_image">
@@ -244,7 +244,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          887 字
+          3.3k 字
         
       </span>
     
@@ -255,7 +255,7 @@
         
         
         
-          8 分钟
+          28 分钟
         
       </span>
     
@@ -316,7 +316,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：几秒前
+                    本文最后更新于：1 分钟前
                   
                 
               </p>
@@ -385,7 +385,52 @@
 </li>
 </ul>
 <p>注：当程序运行时，会直接对列表的url进行访问，同时调用parse()获取返回值。如果url列表里有两个url，则调用了两次parse()函数</p>
-<h1 id="四、scrapy数据解析"><a href="#四、scrapy数据解析" class="headerlink" title="四、scrapy数据解析"></a>四、scrapy数据解析</h1>
+<h1 id="四、scrapy数据解析"><a href="#四、scrapy数据解析" class="headerlink" title="四、scrapy数据解析"></a>四、scrapy数据解析</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse</span>(<span class="hljs-params">self, response</span>):<br>    <span class="hljs-comment"># 获取： 获取坦克名+url+创建时间</span><br>    list_dls = response.xpath(<span class="hljs-string">&#x27;//dl[@class=&quot;col-dl&quot;]&#x27;</span>)<br>    <span class="hljs-comment"># print(list_dls.extract()[0])</span><br>    <span class="hljs-keyword">for</span> list_dl <span class="hljs-keyword">in</span> list_dls:<br>        <span class="hljs-comment"># xpath返回的是一个列表，但是列表元素一定是Selector类型的对象</span><br>        <span class="hljs-comment"># extract可以将Selector对象中data参数存储的字符串提取出来</span><br>        title = list_dl.xpath(<span class="hljs-string">&quot;./dt/a/text()&quot;</span>).extract()  <span class="hljs-comment"># 标题</span><br>        title = <span class="hljs-string">&#x27;&#x27;</span>.join(title)  <span class="hljs-comment"># .join()列表转为字符串</span><br>        url = <span class="hljs-string">&quot;http://www.wuqibaike.com&quot;</span> + list_dl.xpath(<span class="hljs-string">&quot;./dt/a/@href&quot;</span>).extract()[<span class="hljs-number">0</span>]  <span class="hljs-comment">#url</span><br>        <span class="hljs-built_in">print</span>(title, url)<br></code></pre></td></tr></table></figure>
+
+<p><strong>总结几点：</strong></p>
+<ul>
+<li>在parse()函数里实现数据解析  可以直接调用response参数，支持xpath提取操作</li>
+<li>对于xpath的学习</li>
+<li>‘’.join()函数 实现列表转化为字符串</li>
+</ul>
+<h1 id="五、持久化存储"><a href="#五、持久化存储" class="headerlink" title="五、持久化存储"></a>五、持久化存储</h1><h2 id="1-基于终端指令的持久化存储"><a href="#1-基于终端指令的持久化存储" class="headerlink" title="1.基于终端指令的持久化存储"></a>1.基于终端指令的持久化存储</h2><p><strong>要求</strong>：只可以将parse()方法的返回值存储到本地的文本文件中</p>
+<p><strong>指令：</strong>scrapy crawl xxx -o  filename.类型</p>
+<p><strong>好处：</strong>快捷简单高效</p>
+<p><strong>缺点：</strong>局限性比较强</p>
+<p>基于终端指令，我们要将parse()函数写一个返回值  通过列表嵌套字典的方式进行封装，最后返回列表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse</span>(<span class="hljs-params">self, response</span>):<br>    <span class="hljs-comment"># 获取： 获取坦克名+url+创建时间</span><br>    list_dls = response.xpath(<span class="hljs-string">&#x27;//dl[@class=&quot;col-dl&quot;]&#x27;</span>)<br>    <span class="hljs-comment"># print(list_dls.extract()[0])</span><br>    list_data = []<br>    <span class="hljs-keyword">for</span> list_dl <span class="hljs-keyword">in</span> list_dls:<br>        <span class="hljs-comment"># xpath返回的是一个列表，但是列表元素一定是Selector类型的对象</span><br>        <span class="hljs-comment"># extract可以将Selector对象中data参数存储的字符串提取出来</span><br>        title = list_dl.xpath(<span class="hljs-string">&quot;./dt/a/text()&quot;</span>).extract()  <span class="hljs-comment"># 标题</span><br>        title = <span class="hljs-string">&#x27;&#x27;</span>.join(title)  <span class="hljs-comment"># .join()列表转为字符串</span><br>        url = <span class="hljs-string">&quot;http://www.wuqibaike.com&quot;</span> + list_dl.xpath(<span class="hljs-string">&quot;./dt/a/@href&quot;</span>).extract()[<span class="hljs-number">0</span>]  <span class="hljs-comment"># url</span><br>        <span class="hljs-comment"># print(title, url)</span><br>        dic = &#123;<br>            <span class="hljs-string">&#x27;title&#x27;</span>: title,<br>            <span class="hljs-string">&#x27;url&#x27;</span>: url<br>        &#125;<br>        list_data.append(dic)<br>    <span class="hljs-keyword">return</span> list_data<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-基于管道的持久化存储操作"><a href="#2-基于管道的持久化存储操作" class="headerlink" title="2.基于管道的持久化存储操作"></a>2.基于管道的持久化存储操作</h2><p><strong>更加常用，优点更多</strong></p>
+<p><strong>编码流程：</strong></p>
+<ul>
+<li>数据解析</li>
+<li>在实例化之前，在item类中定义相关的属性<ul>
+<li><code>title = scrapy.Field()</code></li>
+</ul>
+</li>
+<li>实例化对象，将解析的数据封装存储到item类型的对象中</li>
+<li>将item类型的对象提交给管道进行持久化存储的操作</li>
+<li>在管道类的process_item中要将其接受到的item对象中存储的数据进行持久化的操作</li>
+<li>在配置文件中开启管道</li>
+</ul>
+<p>好处：通用性强</p>
+<p>坏处：编码繁琐一些</p>
+<p><strong>面试题：</strong>将爬取到的数据一份存储到本地，一份存储到数据库，该怎莫实现？</p>
+<p><strong>具体步骤：</strong></p>
+<p>第一步：数据解析</p>
+<p>第二步：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">QiubaiproItem</span>(scrapy.Item):<br>    <span class="hljs-comment"># define the fields for your item here like:</span><br>    <span class="hljs-comment"># name = scrapy.Field()</span><br>    title = scrapy.Field()<br>    url = scrapy.Field()<br></code></pre></td></tr></table></figure>
+
+<p>第三步：提交给管道</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">item = QiubaiproItem()<br>item[<span class="hljs-string">&#x27;title&#x27;</span>] = title<br>item[<span class="hljs-string">&#x27;url&#x27;</span>] = url<br><br><span class="hljs-keyword">yield</span> item  <span class="hljs-comment"># 将item提交给管道   每循环一次  就会提交一次item给管道</span><br></code></pre></td></tr></table></figure>
+
+<p>第四步：持久化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">QiubaiproPipeline</span>:<br>    fp = <span class="hljs-literal">None</span><br><br>    <span class="hljs-comment"># 重写父类方法  该方法只会被开始爬虫调用一次</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">open_spider</span>(<span class="hljs-params">self, spider</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;开始爬虫......&quot;</span>)<br>        self.fp = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;./qiubai.txt&quot;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br><br>    <span class="hljs-comment"># 专门处理item类型对象</span><br>    <span class="hljs-comment"># 该方法可以接受爬虫文件提交过来的item对象</span><br>    <span class="hljs-comment"># 该方法每接受到一个item就会被调用一次</span><br>    <span class="hljs-comment"># 不能直接在里面写入文件  会造成多次打开文件</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">process_item</span>(<span class="hljs-params">self, item, spider</span>):<br>        title = item[<span class="hljs-string">&#x27;title&#x27;</span>]<br>        url = item[<span class="hljs-string">&#x27;url&#x27;</span>]<br>        self.fp.write(title + <span class="hljs-string">&quot;:&quot;</span> + url + <span class="hljs-string">&quot;\n&quot;</span>)<br>        <span class="hljs-keyword">return</span> item<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">close_spider</span>(<span class="hljs-params">self, spider</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;爬虫结束&quot;</span>)<br>        self.fp.close()<br></code></pre></td></tr></table></figure>
+
+<p>最后：</p>
+<p>修改配置文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">ITEM_PIPELINES = &#123;<br>    <span class="hljs-string">&#x27;qiubaipro.pipelines.QiubaiproPipeline&#x27;</span>: <span class="hljs-number">300</span>,<br>    <span class="hljs-comment"># 300表示的优先级，数值越小优先级越高</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
                 
               </div>
             

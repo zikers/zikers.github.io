@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>GO循环语法基础</title>
+      <link href="/2022/10/05/GO/GO%E5%BE%AA%E7%8E%AF%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/"/>
+      <url>/2022/10/05/GO/GO%E5%BE%AA%E7%8E%AF%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Go循环语法"><a href="#Go循环语法" class="headerlink" title="Go循环语法"></a>Go循环语法</h1><p><strong>Go语言只允许for循环格式，没有while和do…while结构</strong></p><h2 id="1-第一种方式"><a href="#1-第一种方式" class="headerlink" title="1.第一种方式"></a>1.第一种方式</h2><ul><li><p>跟c语言类似 需要声明</p></li><li><p>for 循环的表达式 不需要()</p></li></ul><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br><span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++ &#123;<br>fmt.Println(<span class="hljs-string">&quot;i=&quot;</span>, i)<br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="2-第二种方式"><a href="#2-第二种方式" class="headerlink" title="2.第二种方式"></a>2.第二种方式</h2><ul><li>类似于while的感觉  使用判断，执行操作语句，变量自增</li></ul><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>i := <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> i &lt; <span class="hljs-number">10</span> &#123;<br>fmt.Println(<span class="hljs-string">&quot;i=&quot;</span>, i)<br>i++<br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="3-第三种方式"><a href="#3-第三种方式" class="headerlink" title="3.第三种方式"></a>3.第三种方式</h2><ul><li>无线循环，结合break来使用</li></ul><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>i := <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> &#123; <span class="hljs-comment">//无限循环  如果小于10，打印；否则break</span><br><span class="hljs-keyword">if</span> i &lt; <span class="hljs-number">10</span> &#123;<br>fmt.Println(<span class="hljs-string">&quot;i=&quot;</span>, i)<br>&#125; <span class="hljs-keyword">else</span> &#123;<br><span class="hljs-keyword">break</span><br>&#125;<br>i++<br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="4-第四种方式"><a href="#4-第四种方式" class="headerlink" title="4.第四种方式"></a>4.第四种方式</h2><ul><li><p>使用for-range方式，用来遍历字符串和数组</p><ul><li>类似于python 循环列表的方式</li></ul></li><li><p>以下示例，第一个是传统方式,第二种 使用for-range</p><ul><li>发现for-range这种方式，会有两个index(索引),value(值)的方式。类似于python字典遍历</li></ul></li></ul><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>str := <span class="hljs-string">&quot;hello world&quot;</span><br><span class="hljs-comment">// for i := 0; i &lt; len(str); i++ &#123;</span><br><span class="hljs-comment">// fmt.Printf(&quot;%c\n&quot;, str[i])</span><br><span class="hljs-comment">// &#125;</span><br><br><span class="hljs-keyword">for</span> index, value := <span class="hljs-keyword">range</span> str &#123;<br>fmt.Printf(<span class="hljs-string">&quot;index=%d, value=%c  \n&quot;</span>, index, value)<br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Go </category>
+          
+          <category> 基础语法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> GO </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>GO入门</title>
       <link href="/2022/10/04/Go%E5%85%A5%E9%97%A8/"/>
       <url>/2022/10/04/Go%E5%85%A5%E9%97%A8/</url>

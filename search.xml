@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>注意力机制</title>
+      <link href="/2022/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/"/>
+      <url>/2022/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/</url>
+      
+        <content type="html"><![CDATA[<h1 id="注意力机制详解"><a href="#注意力机制详解" class="headerlink" title="注意力机制详解"></a>注意力机制详解</h1><h1 id="一、注意力机制介绍"><a href="#一、注意力机制介绍" class="headerlink" title="一、注意力机制介绍"></a>一、注意力机制介绍</h1><p>什么是注意力：</p><ul><li>我们在观察事物时，之所以能够快速判断一种事物，是因为我们大脑能够把注意力放在事物最具有辨识度的部分而做出判断，而不是从头到尾观察事物之后，才能有判断结果。正是基于这样的理论，产生了注意力机制。</li></ul><p>什么是注意力计算规则：</p><ul><li>有三个指定的输入，Q(query),K(key),V(value)。然后通过公式得到注意力的计算结果。这个结果代表了query在key和value下的表示。</li><li>一种计算规则如图所示</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210122117004.png" alt="image-20221012211747539"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 深度学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 深度学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Transformer详解</title>
+      <link href="/2022/10/09/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/Transformer%E8%AF%A6%E8%A7%A3/"/>
+      <url>/2022/10/09/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/Transformer%E8%AF%A6%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Transformer详解"><a href="#Transformer详解" class="headerlink" title="Transformer详解"></a>Transformer详解</h1><h1 id="一、transformer整体框架"><a href="#一、transformer整体框架" class="headerlink" title="一、transformer整体框架"></a>一、transformer整体框架</h1><ul><li><p>该架构主要分为两大块，Encoders和Decoders</p></li><li><p>这两块分别由6个Encoders和Decoders组成。</p></li><li><p><strong>Encoders</strong>的功能就是抽取特征的，抽取出来的特征就交给<strong>Decoders</strong>，<strong>Decoders</strong>用<strong>Encoders</strong>抽取到的特征去做具体的任务</p></li><li><p>以往网络架构有所区别的是，<strong>该网络架构中，编码器和解码器没有采用 RNN 或 CNN 等网络架构，而是采用完全依赖于注意力机制的架构</strong></p></li></ul><p><strong>注：为什么不用RNN，而使用注意力机制</strong></p><ul><li>考虑到RNN的计算限制为顺序的，RNN的相关算法只能从左往右依次计算或者从右往左依次计算，这种机制带来了两个问题。</li><li>第一个问题：时间t时刻的计算要依赖前一个时刻的输出信息，这样限制了模型的并行能力</li><li>第二个问题：顺序计算的过程中信息会丢失。尽管LSTM一定程度缓解了RNN的长期依赖的问题，但是对于特别长期的依赖现象，还是无能为力。</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210091947688.png" alt="image-20221009194701166"></p><h1 id="二、Transformer直观认识"><a href="#二、Transformer直观认识" class="headerlink" title="二、Transformer直观认识"></a>二、Transformer直观认识</h1><p><strong>transformer结构：</strong></p><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210091923676.png" alt="image-20221009192352691"></p><p><strong>注：</strong>这6个部分各自都在训练</p><p><strong>其中每个encoder和decoder的内部结构如下：</strong></p><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210091925574.png" alt="image-20221009192508128"></p><p>对于encoder，有两层 :</p><ul><li>自注意力层  帮助获取上下文语义信息</li><li>一个前馈神经网络</li></ul><p><strong>对于decoder层：</strong></p><ul><li>decoder中间有一层attention层，帮助当前节点获取到当前需要关注的重点内容。</li></ul><p><strong>流程：</strong></p><ul><li>首先，模型需要对输入的数据进行一个embedding操作，enmbedding结束之后，输入到encoder层，self-attention处理完数据后把数据送给前馈神经网络，前馈神经网络的计算可以并行，得到的输出会输入到下一个encoder。</li></ul><h1 id="三、Encoder与Decoder"><a href="#三、Encoder与Decoder" class="headerlink" title="三、Encoder与Decoder"></a>三、Encoder与Decoder</h1><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210092012104.png" alt="image-20221009201226717"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 深度学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 深度学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ArrayList详解</title>
       <link href="/2022/10/06/Java/ArrayList%E8%AF%A6%E8%A7%A3/"/>
       <url>/2022/10/06/Java/ArrayList%E8%AF%A6%E8%A7%A3/</url>

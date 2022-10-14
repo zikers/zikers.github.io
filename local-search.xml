@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>西瓜书错题记录</title>
+    <link href="/2022/10/14/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A5%BF%E7%93%9C%E4%B9%A6%E9%94%99%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
+    <url>/2022/10/14/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A5%BF%E7%93%9C%E4%B9%A6%E9%94%99%E9%A2%98%E8%AE%B0%E5%BD%95/</url>
+    
+    <content type="html"><![CDATA[<h1 id="二、模型评估与选择"><a href="#二、模型评估与选择" class="headerlink" title="二、模型评估与选择"></a>二、模型评估与选择</h1><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210140956951.png" alt="image-20221014095603109"></p><p><strong>解析：</strong></p><p>三个关键问题：</p><ul><li>如何获得测试结果？（怎么得到测试集，得到“未来的数据”）—–评估方法<ul><li>留出法</li><li>交叉验证法</li><li>自助法</li></ul></li><li>如何评估性能优劣？ ——–性能度量 <ul><li>错误度与精度</li><li>查准率、查全率与F1</li><li>ROC与AUC</li></ul></li><li>如何判断实质差别？ ——–比较检验</li></ul><p>这篇博客讲的很细：</p><ul><li><a href="https://www.pythonheidong.com/blog/article/1212198/c7c2dbdef8c155677aa9/">https://www.pythonheidong.com/blog/article/1212198/c7c2dbdef8c155677aa9/</a> 机器学习入门之模型评估与选择</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210141023542.png" alt="image-20221014102323680"></p><p><strong>解析：</strong></p><ul><li><p>模型根据数据自动学习出的变量，就是<strong>参数</strong>。比如，深度学习的权重，偏差等。</p></li><li><p><strong>超参数</strong>一般是根据经验确定的变量，用来确定模型的一些参数，超参数不同，模型是不同的。在深度学习中，超参数有：学习速率（lr），迭代次数，层数，每层神经元的个数等等。</p></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>深度学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>错题记录</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>注意力机制</title>
     <link href="/2022/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/"/>
     <url>/2022/10/11/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/</url>

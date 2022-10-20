@@ -4,6 +4,58 @@
   
   
   <entry>
+    <title>transformer学习</title>
+    <link href="/2022/10/20/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/transformer%E5%AD%A6%E4%B9%A0/"/>
+    <url>/2022/10/20/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/transformer%E5%AD%A6%E4%B9%A0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Transformer详解"><a href="#Transformer详解" class="headerlink" title="Transformer详解"></a>Transformer详解</h1><p>（整篇笔记为博客学习<a href="https://blog.csdn.net/longxinchen_ml/article/details/86533005%EF%BC%89">https://blog.csdn.net/longxinchen_ml/article/details/86533005）</a></p><p><strong>名词解释：</strong></p><ul><li>SOTA<ul><li>State of The Art  指在该项研究任务中，对比该领域的其他模型，这个是目前最好、最先进的模型。</li></ul></li></ul><p><strong>文献阅读：</strong></p><ul><li>Transformer模型提出的原始论文：Attention is All You Need: <a href="https://arxiv.org/abs/1706.03762">https://arxiv.org/abs/1706.03762</a></li></ul><h1 id="一、基础入门整体架构"><a href="#一、基础入门整体架构" class="headerlink" title="一、基础入门整体架构"></a>一、基础入门整体架构</h1><h2 id="1-从宏观开始看"><a href="#1-从宏观开始看" class="headerlink" title="1.从宏观开始看"></a><strong>1.从宏观开始看</strong></h2><ul><li>将这个模型看成一个黑箱操作，或者一个函数，机器。以机器翻译为例，当输入一个语言时，通过模型的一系列加工，得到的输出是另一种语言。</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201528268.png" alt="image-20221020152520946"></p><h2 id="2-各模块拆分详解"><a href="#2-各模块拆分详解" class="headerlink" title="2.各模块拆分详解"></a><strong>2.各模块拆分详解</strong></h2><ul><li>1.详细一步，看中间transformer结构，发现它由编码结构和解码结构以及两者之间的连接构成。</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201535751.png" alt="image-20221020153505554"></p><ul><li>2.进一步分析，论文介绍，编码组件和解码组件均分别用的6层的编码器和解码器组成。</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201536752.png" alt="image-20221020153649254"></p><ul><li>3.每一个编码器在结构上都是相同的，解码器也一样。下面看单个编码器的内部结构，如下图所示。</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201601723.png" alt="image-20221020160144481"></p><p>当翻译语句输入序列从编码器进行输入时，首先会经过一个自注意力层，这层会帮助编码器注意到其他信息。</p><p>自注意力层输出后，进入前馈神经网络。每个位置的单词对应的前馈神经网络都完全一样</p><ul><li>下面看一下解码器。和编码器结构类似，除了编码器具有的两层机制外，在两层中间还有一个注意力层，用来关注输入句子的相关部分</li></ul><h1 id="二、进阶"><a href="#二、进阶" class="headerlink" title="二、进阶"></a>二、进阶</h1><h2 id="1-引入张量"><a href="#1-引入张量" class="headerlink" title="1.引入张量"></a>1.引入张量</h2><p>在模型输入时，一些输入的均是词向量，（简单说只有转化成数字才能进行一些列运算）</p><ul><li>首先将每个单词通过词嵌入算法（如word2vec）转化为词向量，如下图所示</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201617242.png" alt="image-20221020161718124"></p><p>每个单词都转化为512维度的向量，上图用简单方框来表示这些向量。</p><ul><li>接着将词向量序列输入编码器之后，会经过编码器的两个子层</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201628180.png" alt="image-20221020162810745"></p><p>接下来我们看看Transformer的一个核心特性，在这里输入序列中<strong>每个位置的单词都有自己独特的路径流入编码器</strong>。在自注意力层中，这些路径之间存在依赖关系。而前馈（feed-forward）层没有这些依赖关系。因此在前馈（feed-forward）层时可以并行执行各种路径。</p><h2 id="2-开始编码"><a href="#2-开始编码" class="headerlink" title="2.开始编码"></a>2.开始编码</h2><p><strong>基本流程：</strong>一个编码器接收向量列表作为输入，接着将向量列表中的向量传递到自注意力层进行处理，然后传递到前馈神经网络层中，将输出结果传递到下一个编码器中。</p><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201631694.png" alt="image-20221020163102918"></p><p>输入序列的每个单词都经过自编码过程。然后，他们各自通过前向传播神经网络——完全相同的网络，而每个向量都分别通过它。</p><h1 id="三、自注意力机制"><a href="#三、自注意力机制" class="headerlink" title="三、自注意力机制"></a>三、自注意力机制</h1><h2 id="1-从宏观视角看自注意力机制"><a href="#1-从宏观视角看自注意力机制" class="headerlink" title="1.从宏观视角看自注意力机制"></a>1.从宏观视角看自注意力机制</h2><p><strong>对于自注意力机制的理解：</strong></p><p>以下列我们想要翻译的句子为例：</p><ul><li>The animal didn’t cross the street because it was too tired。</li></ul><p>这里的it时指的animal还是street呢，人很容易判断，但是计算机算法则不然。而使用自注意力机制会帮助it与animal建立联系。</p><p>随着模型处理输入序列的每个单词，自注意力会关注整个输入序列的所有单词，帮助模型对本单词更好地进行编码。</p><p><strong>与RNN作对比：</strong></p><ul><li>RNN会将它已经处理过的前面的所有单词&#x2F;向量的表示与它正在处理的当前单词&#x2F;向量结合起来。  有一个ht-1的隐藏状态</li><li>而自注意力机制会将所有相关单词的理解融入到我们正在处理的单词中。</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201642298.png" alt="image-20221020164226152"></p><p>当我们在最后一个编码器编码“it”这个单词的时，注意力机制的部分会去关注“The Animal”，将它的表示的一部分编入“it”的编码中。</p><h2 id="2-从微观视角看注意力机制"><a href="#2-从微观视角看注意力机制" class="headerlink" title="2.从微观视角看注意力机制"></a>2.从微观视角看注意力机制</h2><p><strong>1）首先由最开始的词嵌入向量得到 q k v三个向量</strong></p><ul><li>计算自注意力的<strong>第一步</strong>就是从每个编码器的输入向量（每个单词的词向量）中生成三个向量。查询向量、一个键向量和一个值向量。这三个向量是通过词嵌入与三个权重矩阵后相乘创建的。如图所示。</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201649145.png" alt="image-20221020164903514"></p><ul><li>可以发现这些新向量在维度上比词嵌入向量更低。他们的维度是64，而词嵌入和编码器的输入&#x2F;输出向量的维度是512. 但实际上不强求维度更小，这只是一种基于架构上的选择，它可以使多头注意力（multiheaded attention）的大部分计算保持不变。</li></ul><p><strong>注：</strong>从上图中理解，以x1词嵌入向量为例。X1是1x4的矩阵，而WQ权重矩阵是4x3的矩阵，两者相乘得到的q1向量为1x3维的向量。其他向量也是如此得到</p><p>经过这个步骤，就得到了 三个不同的向量</p><p><strong>2）那么什么是查询向量、键向量和值向量呢</strong></p><ul><li>计算自注意力的第二步是计算得分。假设我们在为这个例子中的第一个词“Thinking”计算自注意力向量，我们需要拿输入句子中的每个单词对“Thinking”打分。这些分数决定了在编码单词“Thinking”的过程中有多重视句子的其它部分。</li><li>这些分数是通过打分单词（所有输入句子的单词）的键向量与“Thinking”的查询向量相点积来计算的。所以如果我们是处理位置最靠前的词的自注意力的话，第一个分数是q1和k1的点积，第二个分数是q1和k2的点积。</li></ul><p>注：当针对第一个单词时，会用本单词的q1与句子中所有单词的k进行乘积，得到一个数值-分数。</p><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201719995.png" alt="image-20221020171654860"></p><ul><li>第三步和第四步是将分数除以8(8是论文中使用的键向量的维数64的平方根，这会让梯度更稳定。即论文中根号下V，然后通过softmax传递结果。softmax的作用是使所有单词的分数归一化，得到的分数都是正值且和为1。</li></ul><p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20221020172136500.png" alt="image-20221020172136500"></p><p>这个softmax分数决定了每个单词对编码当下位置（“Thinking”）的贡献。显然，已经在这个位置上的单词将获得最高的softmax分数，但有时关注另一个与当前单词相关的单词也会有帮助。</p><ul><li><p>第五步是将每个值向量乘以softmax分数(这是为了准备之后将它们求和)。这里的直觉是希望关注语义上相关的单词，并弱化不相关的单词(例如，让它们乘以0.001这样的小数)。</p></li><li><p>第六步是对加权值向量求和（译注：自注意力的另一种解释就是在编码某个单词时，就是将所有单词的表示（值向量）进行加权求和，而权重是通过该词的表示（键向量）与被编码词表示（查询向量）的点积并通过softmax得到。），然后即得到自注意力层在该位置的输出(在我们的例子中是对于第一个单词)。</p></li></ul><p><img src="https://github.com/zikers/image_store/blob/main/img/202210201749430.png?raw=true" alt="image-20221020172421834"></p><p>这样自注意力的计算就完成了。得到的向量就可以传给前馈神经网络。然而实际中，这些计算是以矩阵形式完成的，以便算得更快。那我们接下来就看看如何用矩阵实现的。</p><h2 id="3-矩阵运算实现自注意力机制"><a href="#3-矩阵运算实现自注意力机制" class="headerlink" title="3.矩阵运算实现自注意力机制"></a>3.矩阵运算实现自注意力机制</h2><ul><li>第一步是计算查询矩阵、键矩阵和值矩阵。为此，我们将将输入句子的词嵌入装进矩阵X中，将其乘以我们训练的权重矩阵(WQ，WK，WV)。</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201736840.png" alt="image-20221020173253809"></p><ul><li>x矩阵中的每一行对应于输入句子中的一个单词。</li><li>最后，由于我们处理的是矩阵，我们可以将步骤2到步骤6合并为一个公式来计算自注意力层的输出。</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201735879.png" alt="image-20221020173425317"></p><p>注：这里的三个权重矩阵是共用的</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>深度学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>深度学习</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>git</title>
+    <link href="/2022/10/14/git/"/>
+    <url>/2022/10/14/git/</url>
+    
+    <content type="html"><![CDATA[<h1 id="一、版本控制"><a href="#一、版本控制" class="headerlink" title="一、版本控制"></a>一、版本控制</h1><h2 id="1-什么是版本控制？"><a href="#1-什么是版本控制？" class="headerlink" title="1. 什么是版本控制？"></a>1. 什么是版本控制？</h2><ul><li>是一种在开发过程中用于管理我们的文件、目录或工程等内容的修改历史，方便查看更改历史记录，备份以便恢复以前的版本的软件工程技术。</li></ul><h2 id="2-用途"><a href="#2-用途" class="headerlink" title="2. 用途"></a>2. 用途</h2><ul><li>实现跨区域多人协同开发</li><li>追踪和记载一个或者多个文件的历史记录</li><li>组织和保护你的源代码和文档</li><li>统计工作量</li><li>并行开发、提高开发效率</li><li>跟踪记录整个软件开发过程</li><li>减轻开发人员的负担，节省时间，同时降低人为错误</li></ul><p>简单的说，就是用于管理多人开发协同开发项目的技术。</p><h2 id="3-常见版本控制工具"><a href="#3-常见版本控制工具" class="headerlink" title="3. 常见版本控制工具"></a>3. 常见版本控制工具</h2><ul><li>Git</li><li>SVN</li><li>CVS</li><li>VSS</li><li>TFS</li><li>Visual Studio Online</li></ul><h2 id="4-版本控制分类"><a href="#4-版本控制分类" class="headerlink" title="4.版本控制分类"></a>4.版本控制分类</h2><p>1）本地版本控制</p><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210141400430.png" alt="image-20221014140030680"></p><p>2）集中版本控制</p><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210141400781.png" alt="image-20221014140043610"></p><p>3）分布式版本控制</p><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210141400260.png" alt="image-20221014140053685"></p><h1 id="二、Git历史"><a href="#二、Git历史" class="headerlink" title="二、Git历史"></a>二、Git历史</h1><p>Linux 内核开源项目有着为数众广的参与者。绝大多数的 Linux 内核维护工作都花在了提交补丁和保存归档的繁琐事务上(1991－2002年间)。到 2002 年，整个项目组开始启用一个专有的分布式版本控制系统 BitKeeper 来管理和维护代码。</p><p>Linux社区中存在很多的大佬！破解研究 BitKeeper ！</p><p>到了 2005 年，开发 BitKeeper 的商业公司同 Linux 内核开源社区的合作关系结束，他们收回了 Linux 内核社区免费使用 BitKeeper 的权力。这就迫使 Linux 开源社区(特别是 Linux 的缔造者 Linus Torvalds)基于使用 BitKeeper 时的经验教训，开发出自己的版本系统。（2周左右！） 也就是后来的 Git！</p><h1 id="三、Git环境配置"><a href="#三、Git环境配置" class="headerlink" title="三、Git环境配置"></a>三、Git环境配置</h1><h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h2><p>安装好后，如图所示。</p><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210141409233.png" alt="image-20221014140915068"></p><ul><li><p><strong>Git Bash：</strong>Unix与Linux风格的命令行，使用最多，推荐最多</p></li><li><p><strong>Git CMD：</strong>Windows风格的命令行</p></li><li><p><strong>Git GUI</strong>：图形界面的Git，不建议初学者使用，尽量先熟悉常用命令</p></li></ul><h2 id="2-Git配置"><a href="#2-Git配置" class="headerlink" title="2.Git配置"></a>2.Git配置</h2><ul><li>查看配置 git config -l</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210141415581.png" alt="image-20221014141551875"></p><ul><li>查看不同级别的配置文件</li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">查看系统config</span><br>git config --system --list<br><span class="hljs-meta prompt_">　　</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">查看当前用户（global）配置</span><br>git config --global  --list<br></code></pre></td></tr></table></figure><ul><li><strong>Git相关的配置文件：</strong></li></ul><p>1）Git\etc\gitconfig  ：Git 安装目录下的 gitconfig   –system 系统级</p><p>2）C:\Users\Administrator\ .gitconfig   只适用于当前登录用户的配置  –global 全局</p><p><strong>注：</strong>所有配置文件其实都保存在本地。用命令修改配置之后，其实就是改变了文件内容。也可以打开文件进行修改。</p><ul><li>设置用户名与邮箱</li></ul><p>当你安装Git后首先要做的事情是设置你的用户名称和e-mail地址。这是非常重要的，因为每次Git提交都会使用该信息。它被永远的嵌入到了你的提交中：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git config --global user.name &quot;kuangshen&quot;  #名称git config --global user.email 24736743@qq.com   #邮箱<br></code></pre></td></tr></table></figure><h1 id="四、Git基本理论（核心）"><a href="#四、Git基本理论（核心）" class="headerlink" title="四、Git基本理论（核心）"></a>四、Git基本理论（核心）</h1>]]></content>
+    
+    
+    <categories>
+      
+      <category>java</category>
+      
+      <category>Git</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Git</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>西瓜书错题记录</title>
     <link href="/2022/10/14/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A5%BF%E7%93%9C%E4%B9%A6%E9%94%99%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
     <url>/2022/10/14/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A5%BF%E7%93%9C%E4%B9%A6%E9%94%99%E9%A2%98%E8%AE%B0%E5%BD%95/</url>

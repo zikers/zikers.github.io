@@ -1,0 +1,742 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zikers">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Transformer详解（整篇笔记为博客学习https:&#x2F;&#x2F;blog.csdn.net&#x2F;longxinchen_ml&#x2F;article&#x2F;details&#x2F;86533005） 名词解释：  SOTA State of The Art  指在该项研究任务中，对比该领域的其他模型，这个是目前最好、最先进的模型。    文献阅读：  Transformer模型提出的原始论文：Attention is All">
+<meta property="og:type" content="article">
+<meta property="og:title" content="transformer学习">
+<meta property="og:url" content="http://example.com/2022/10/20/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/transformer%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="zikers的博客">
+<meta property="og:description" content="Transformer详解（整篇笔记为博客学习https:&#x2F;&#x2F;blog.csdn.net&#x2F;longxinchen_ml&#x2F;article&#x2F;details&#x2F;86533005） 名词解释：  SOTA State of The Art  指在该项研究任务中，对比该领域的其他模型，这个是目前最好、最先进的模型。    文献阅读：  Transformer模型提出的原始论文：Attention is All">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201528268.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201535751.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201536752.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201601723.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201617242.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201628180.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201631694.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201642298.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201649145.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201719995.png">
+<meta property="og:image" content="c:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20221020172136500.png">
+<meta property="og:image" content="https://github.com/zikers/image_store/blob/main/img/202210201749430.png?raw=true">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201736840.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201735879.png">
+<meta property="article:published_time" content="2022-10-20T09:55:30.000Z">
+<meta property="article:modified_time" content="2022-10-20T09:57:37.985Z">
+<meta property="article:author" content="Zikers">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201528268.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>transformer学习 - zikers的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":60,"cursorChar":"~","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"§"},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zikers&#39;blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="transformer学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Zikers
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-20 17:55" pubdate>
+          2022年10月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">transformer学习</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：几秒前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Transformer详解"><a href="#Transformer详解" class="headerlink" title="Transformer详解"></a>Transformer详解</h1><p>（整篇笔记为博客学习<a target="_blank" rel="noopener" href="https://blog.csdn.net/longxinchen_ml/article/details/86533005%EF%BC%89">https://blog.csdn.net/longxinchen_ml/article/details/86533005）</a></p>
+<p><strong>名词解释：</strong></p>
+<ul>
+<li>SOTA<ul>
+<li>State of The Art  指在该项研究任务中，对比该领域的其他模型，这个是目前最好、最先进的模型。</li>
+</ul>
+</li>
+</ul>
+<p><strong>文献阅读：</strong></p>
+<ul>
+<li>Transformer模型提出的原始论文：Attention is All You Need: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">https://arxiv.org/abs/1706.03762</a></li>
+</ul>
+<h1 id="一、基础入门整体架构"><a href="#一、基础入门整体架构" class="headerlink" title="一、基础入门整体架构"></a>一、基础入门整体架构</h1><h2 id="1-从宏观开始看"><a href="#1-从宏观开始看" class="headerlink" title="1.从宏观开始看"></a><strong>1.从宏观开始看</strong></h2><ul>
+<li>将这个模型看成一个黑箱操作，或者一个函数，机器。以机器翻译为例，当输入一个语言时，通过模型的一系列加工，得到的输出是另一种语言。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201528268.png" srcset="/img/loading.gif" lazyload alt="image-20221020152520946"></p>
+<h2 id="2-各模块拆分详解"><a href="#2-各模块拆分详解" class="headerlink" title="2.各模块拆分详解"></a><strong>2.各模块拆分详解</strong></h2><ul>
+<li>1.详细一步，看中间transformer结构，发现它由编码结构和解码结构以及两者之间的连接构成。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201535751.png" srcset="/img/loading.gif" lazyload alt="image-20221020153505554"></p>
+<ul>
+<li>2.进一步分析，论文介绍，编码组件和解码组件均分别用的6层的编码器和解码器组成。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201536752.png" srcset="/img/loading.gif" lazyload alt="image-20221020153649254"></p>
+<ul>
+<li>3.每一个编码器在结构上都是相同的，解码器也一样。下面看单个编码器的内部结构，如下图所示。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201601723.png" srcset="/img/loading.gif" lazyload alt="image-20221020160144481"></p>
+<p>当翻译语句输入序列从编码器进行输入时，首先会经过一个自注意力层，这层会帮助编码器注意到其他信息。</p>
+<p>自注意力层输出后，进入前馈神经网络。每个位置的单词对应的前馈神经网络都完全一样</p>
+<ul>
+<li>下面看一下解码器。和编码器结构类似，除了编码器具有的两层机制外，在两层中间还有一个注意力层，用来关注输入句子的相关部分</li>
+</ul>
+<h1 id="二、进阶"><a href="#二、进阶" class="headerlink" title="二、进阶"></a>二、进阶</h1><h2 id="1-引入张量"><a href="#1-引入张量" class="headerlink" title="1.引入张量"></a>1.引入张量</h2><p>在模型输入时，一些输入的均是词向量，（简单说只有转化成数字才能进行一些列运算）</p>
+<ul>
+<li>首先将每个单词通过词嵌入算法（如word2vec）转化为词向量，如下图所示</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201617242.png" srcset="/img/loading.gif" lazyload alt="image-20221020161718124"></p>
+<p>每个单词都转化为512维度的向量，上图用简单方框来表示这些向量。</p>
+<ul>
+<li>接着将词向量序列输入编码器之后，会经过编码器的两个子层</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201628180.png" srcset="/img/loading.gif" lazyload alt="image-20221020162810745"></p>
+<p>接下来我们看看Transformer的一个核心特性，在这里输入序列中<strong>每个位置的单词都有自己独特的路径流入编码器</strong>。在自注意力层中，这些路径之间存在依赖关系。而前馈（feed-forward）层没有这些依赖关系。因此在前馈（feed-forward）层时可以并行执行各种路径。</p>
+<h2 id="2-开始编码"><a href="#2-开始编码" class="headerlink" title="2.开始编码"></a>2.开始编码</h2><p><strong>基本流程：</strong>一个编码器接收向量列表作为输入，接着将向量列表中的向量传递到自注意力层进行处理，然后传递到前馈神经网络层中，将输出结果传递到下一个编码器中。</p>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201631694.png" srcset="/img/loading.gif" lazyload alt="image-20221020163102918"></p>
+<p>输入序列的每个单词都经过自编码过程。然后，他们各自通过前向传播神经网络——完全相同的网络，而每个向量都分别通过它。</p>
+<h1 id="三、自注意力机制"><a href="#三、自注意力机制" class="headerlink" title="三、自注意力机制"></a>三、自注意力机制</h1><h2 id="1-从宏观视角看自注意力机制"><a href="#1-从宏观视角看自注意力机制" class="headerlink" title="1.从宏观视角看自注意力机制"></a>1.从宏观视角看自注意力机制</h2><p><strong>对于自注意力机制的理解：</strong></p>
+<p>以下列我们想要翻译的句子为例：</p>
+<ul>
+<li>The animal didn’t cross the street because it was too tired。</li>
+</ul>
+<p>这里的it时指的animal还是street呢，人很容易判断，但是计算机算法则不然。而使用自注意力机制会帮助it与animal建立联系。</p>
+<p>随着模型处理输入序列的每个单词，自注意力会关注整个输入序列的所有单词，帮助模型对本单词更好地进行编码。</p>
+<p><strong>与RNN作对比：</strong></p>
+<ul>
+<li>RNN会将它已经处理过的前面的所有单词&#x2F;向量的表示与它正在处理的当前单词&#x2F;向量结合起来。  有一个ht-1的隐藏状态</li>
+<li>而自注意力机制会将所有相关单词的理解融入到我们正在处理的单词中。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201642298.png" srcset="/img/loading.gif" lazyload alt="image-20221020164226152"></p>
+<p>当我们在最后一个编码器编码“it”这个单词的时，注意力机制的部分会去关注“The Animal”，将它的表示的一部分编入“it”的编码中。</p>
+<h2 id="2-从微观视角看注意力机制"><a href="#2-从微观视角看注意力机制" class="headerlink" title="2.从微观视角看注意力机制"></a>2.从微观视角看注意力机制</h2><p><strong>1）首先由最开始的词嵌入向量得到 q k v三个向量</strong></p>
+<ul>
+<li>计算自注意力的<strong>第一步</strong>就是从每个编码器的输入向量（每个单词的词向量）中生成三个向量。查询向量、一个键向量和一个值向量。这三个向量是通过词嵌入与三个权重矩阵后相乘创建的。如图所示。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201649145.png" srcset="/img/loading.gif" lazyload alt="image-20221020164903514"></p>
+<ul>
+<li>可以发现这些新向量在维度上比词嵌入向量更低。他们的维度是64，而词嵌入和编码器的输入&#x2F;输出向量的维度是512. 但实际上不强求维度更小，这只是一种基于架构上的选择，它可以使多头注意力（multiheaded attention）的大部分计算保持不变。</li>
+</ul>
+<p><strong>注：</strong>从上图中理解，以x1词嵌入向量为例。X1是1x4的矩阵，而WQ权重矩阵是4x3的矩阵，两者相乘得到的q1向量为1x3维的向量。其他向量也是如此得到</p>
+<p>经过这个步骤，就得到了 三个不同的向量</p>
+<p><strong>2）那么什么是查询向量、键向量和值向量呢</strong></p>
+<ul>
+<li>计算自注意力的第二步是计算得分。假设我们在为这个例子中的第一个词“Thinking”计算自注意力向量，我们需要拿输入句子中的每个单词对“Thinking”打分。这些分数决定了在编码单词“Thinking”的过程中有多重视句子的其它部分。</li>
+<li>这些分数是通过打分单词（所有输入句子的单词）的键向量与“Thinking”的查询向量相点积来计算的。所以如果我们是处理位置最靠前的词的自注意力的话，第一个分数是q1和k1的点积，第二个分数是q1和k2的点积。</li>
+</ul>
+<p>注：当针对第一个单词时，会用本单词的q1与句子中所有单词的k进行乘积，得到一个数值-分数。</p>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201719995.png" srcset="/img/loading.gif" lazyload alt="image-20221020171654860"></p>
+<ul>
+<li>第三步和第四步是将分数除以8(8是论文中使用的键向量的维数64的平方根，这会让梯度更稳定。即论文中根号下V，然后通过softmax传递结果。softmax的作用是使所有单词的分数归一化，得到的分数都是正值且和为1。</li>
+</ul>
+<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20221020172136500.png" srcset="/img/loading.gif" lazyload alt="image-20221020172136500"></p>
+<p>这个softmax分数决定了每个单词对编码当下位置（“Thinking”）的贡献。显然，已经在这个位置上的单词将获得最高的softmax分数，但有时关注另一个与当前单词相关的单词也会有帮助。</p>
+<ul>
+<li><p>第五步是将每个值向量乘以softmax分数(这是为了准备之后将它们求和)。这里的直觉是希望关注语义上相关的单词，并弱化不相关的单词(例如，让它们乘以0.001这样的小数)。</p>
+</li>
+<li><p>第六步是对加权值向量求和（译注：自注意力的另一种解释就是在编码某个单词时，就是将所有单词的表示（值向量）进行加权求和，而权重是通过该词的表示（键向量）与被编码词表示（查询向量）的点积并通过softmax得到。），然后即得到自注意力层在该位置的输出(在我们的例子中是对于第一个单词)。</p>
+</li>
+</ul>
+<p><img src="https://github.com/zikers/image_store/blob/main/img/202210201749430.png?raw=true" srcset="/img/loading.gif" lazyload alt="image-20221020172421834"></p>
+<p>这样自注意力的计算就完成了。得到的向量就可以传给前馈神经网络。然而实际中，这些计算是以矩阵形式完成的，以便算得更快。那我们接下来就看看如何用矩阵实现的。</p>
+<h2 id="3-矩阵运算实现自注意力机制"><a href="#3-矩阵运算实现自注意力机制" class="headerlink" title="3.矩阵运算实现自注意力机制"></a>3.矩阵运算实现自注意力机制</h2><ul>
+<li>第一步是计算查询矩阵、键矩阵和值矩阵。为此，我们将将输入句子的词嵌入装进矩阵X中，将其乘以我们训练的权重矩阵(WQ，WK，WV)。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201736840.png" srcset="/img/loading.gif" lazyload alt="image-20221020173253809"></p>
+<ul>
+<li>x矩阵中的每一行对应于输入句子中的一个单词。</li>
+<li>最后，由于我们处理的是矩阵，我们可以将步骤2到步骤6合并为一个公式来计算自注意力层的输出。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201735879.png" srcset="/img/loading.gif" lazyload alt="image-20221020173425317"></p>
+<p>注：这里的三个权重矩阵是共用的</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/14/git/" title="git">
+                        <span class="hidden-mobile">git</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="" target="_blank" rel="nofollow noopener"><span>2022</span></a> <i class="iconfont icon-love"></i> <a href="" target="_blank" rel="nofollow noopener"><span>Zikers</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

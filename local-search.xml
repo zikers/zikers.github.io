@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>batchsize理解</title>
+    <link href="/2022/10/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/batchsize%E7%90%86%E8%A7%A3/"/>
+    <url>/2022/10/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/batchsize%E7%90%86%E8%A7%A3/</url>
+    
+    <content type="html"><![CDATA[<h1 id="batchsize理解"><a href="#batchsize理解" class="headerlink" title="batchsize理解"></a>batchsize理解</h1><p><strong>笔记来自以下博客：</strong></p><ul><li><a href="https://blog.csdn.net/xpj4657065/article/details/108616076">https://blog.csdn.net/xpj4657065/article/details/108616076</a></li></ul><p><strong>直观理解</strong></p><p><strong>Batchsize定义：</strong>一次训练所选取的样本数</p><p><strong>注：Batchsize的大小影响模型的优化程度和速度。同时影响到CPU内存的使用情况。在GPU内存不大的情况下，可以将batchsize设置小一点，这样每次训练选取少一些的样本数。</strong></p><p><strong>为什么提出batchsize</strong></p><ul><li>本来需要把一整个数据直接放入网络中，但大量数据会导致内存爆炸</li></ul><p><strong>batch size设置合适时的优点</strong></p><ul><li>通过并行化提高内存利用率，让GPU满载运行，提高训练速度</li><li>单个epoch的迭代次数减少了，参数的调整也慢了，假如要达到相同的识别精度，需要更多的epoch。</li><li><strong>适当Batch Size使得梯度下降方向更加准确。</strong></li></ul><p><strong>batchsize从小到大对网络的影响</strong></p><ul><li>无batchsize,梯度准确，只适用于小样本数据库</li><li>batchsize&#x3D;1，梯度变来变去，很不准确，网络很难收敛</li><li>增大，梯度越来越准确</li><li>再增大，梯度已经非常准确，再增加没有作用</li></ul><p><strong>注意：</strong>Batch Size增大了，要到达相同的准确度，必须要增大epoch</p><p><strong>经验总结：</strong></p><ul><li><p>相对于正常数据集，如果Batch_Size过小，训练数据就会非常难收敛，从而导致underfitting。</p></li><li><p>增大Batch_Size,相对处理速度加快。</p></li><li><p>增大Batch_Size,所需内存容量增加（epoch的次数需要增加以达到最好的结果）</p></li><li><p>这里我们发现上面两个矛盾的问题，因为当epoch增加以后同样也会导致耗时增加从而速度下降。因此我们需要寻找最好的Batch_Size。</p></li><li><p>Batch_Size的正确选择是为了在内存效率和内存容量之间寻找最佳平衡。</p></li></ul><p>深度学习中经常看到epoch、iteration和batchsize，下面按照自己的理解说说这三个区别：<br>（1）batchsize：批大小。在深度学习中，一般采用SGD训练，即每次训练在训练集中取<strong>batchsize</strong>个样本训练；<br>（2）iteration：1个iteration等于使用batchsize个样本训练一次；<br>（3）epoch：1个epoch等于使用训练集中的全部样本训练一次；</p><p><strong>例子：</strong></p><p>训练集有1000个样本，batchsize&#x3D;10，那么：<br>训练完整个样本集需要：100次iteration，1次epoch。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>深度学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>深度学习</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>transformer学习</title>
     <link href="/2022/10/20/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/transformer%E5%AD%A6%E4%B9%A0/"/>
     <url>/2022/10/20/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/transformer%E5%AD%A6%E4%B9%A0/</url>
@@ -111,31 +136,6 @@
     <url>/2022/10/09/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/Transformer%E8%AF%A6%E8%A7%A3/</url>
     
     <content type="html"><![CDATA[<h1 id="Transformer详解"><a href="#Transformer详解" class="headerlink" title="Transformer详解"></a>Transformer详解</h1><h1 id="一、transformer整体框架"><a href="#一、transformer整体框架" class="headerlink" title="一、transformer整体框架"></a>一、transformer整体框架</h1><ul><li><p>该架构主要分为两大块，Encoders和Decoders</p></li><li><p>这两块分别由6个Encoders和Decoders组成。</p></li><li><p><strong>Encoders</strong>的功能就是抽取特征的，抽取出来的特征就交给<strong>Decoders</strong>，<strong>Decoders</strong>用<strong>Encoders</strong>抽取到的特征去做具体的任务</p></li><li><p>以往网络架构有所区别的是，<strong>该网络架构中，编码器和解码器没有采用 RNN 或 CNN 等网络架构，而是采用完全依赖于注意力机制的架构</strong></p></li></ul><p><strong>注：为什么不用RNN，而使用注意力机制</strong></p><ul><li>考虑到RNN的计算限制为顺序的，RNN的相关算法只能从左往右依次计算或者从右往左依次计算，这种机制带来了两个问题。</li><li>第一个问题：时间t时刻的计算要依赖前一个时刻的输出信息，这样限制了模型的并行能力</li><li>第二个问题：顺序计算的过程中信息会丢失。尽管LSTM一定程度缓解了RNN的长期依赖的问题，但是对于特别长期的依赖现象，还是无能为力。</li></ul><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210091947688.png" alt="image-20221009194701166"></p><h1 id="二、Transformer直观认识"><a href="#二、Transformer直观认识" class="headerlink" title="二、Transformer直观认识"></a>二、Transformer直观认识</h1><p><strong>transformer结构：</strong></p><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210091923676.png" alt="image-20221009192352691"></p><p><strong>注：</strong>这6个部分各自都在训练</p><p><strong>其中每个encoder和decoder的内部结构如下：</strong></p><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210091925574.png" alt="image-20221009192508128"></p><p>对于encoder，有两层 :</p><ul><li>自注意力层  帮助获取上下文语义信息</li><li>一个前馈神经网络</li></ul><p><strong>对于decoder层：</strong></p><ul><li>decoder中间有一层attention层，帮助当前节点获取到当前需要关注的重点内容。</li></ul><p><strong>流程：</strong></p><ul><li>首先，模型需要对输入的数据进行一个embedding操作，enmbedding结束之后，输入到encoder层，self-attention处理完数据后把数据送给前馈神经网络，前馈神经网络的计算可以并行，得到的输出会输入到下一个encoder。</li></ul><h1 id="三、Encoder与Decoder"><a href="#三、Encoder与Decoder" class="headerlink" title="三、Encoder与Decoder"></a>三、Encoder与Decoder</h1><p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210092012104.png" alt="image-20221009201226717"></p>]]></content>
-    
-    
-    <categories>
-      
-      <category>深度学习</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>深度学习</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Transformer详解</title>
-    <link href="/2022/10/09/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/batchsize%E7%90%86%E8%A7%A3/"/>
-    <url>/2022/10/09/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/batchsize%E7%90%86%E8%A7%A3/</url>
-    
-    <content type="html"><![CDATA[<h1 id="batchsize理解"><a href="#batchsize理解" class="headerlink" title="batchsize理解"></a>batchsize理解</h1><p><strong>笔记来自以下博客：</strong></p><ul><li><a href="https://blog.csdn.net/xpj4657065/article/details/108616076">https://blog.csdn.net/xpj4657065/article/details/108616076</a></li></ul><p><strong>直观理解</strong></p><p><strong>Batchsize定义：</strong>一次训练所选取的样本数</p><p><strong>注：Batchsize的大小影响模型的优化程度和速度。同时影响到CPU内存的使用情况。在GPU内存不大的情况下，可以将batchsize设置小一点，这样每次训练选取少一些的样本数。</strong></p><p><strong>为什么提出batchsize</strong></p><ul><li>本来需要把一整个数据直接放入网络中，但大量数据会导致内存爆炸</li></ul><p><strong>batch size设置合适时的优点</strong></p><ul><li>通过并行化提高内存利用率，让GPU满载运行，提高训练速度</li><li>单个epoch的迭代次数减少了，参数的调整也慢了，假如要达到相同的识别精度，需要更多的epoch。</li><li><strong>适当Batch Size使得梯度下降方向更加准确。</strong></li></ul><p><strong>batchsize从小到大对网络的影响</strong></p><ul><li>无batchsize,梯度准确，只适用于小样本数据库</li><li>batchsize&#x3D;1，梯度变来变去，很不准确，网络很难收敛</li><li>增大，梯度越来越准确</li><li>再增大，梯度已经非常准确，再增加没有作用</li></ul><p><strong>注意：</strong>Batch Size增大了，要到达相同的准确度，必须要增大epoch</p><p><strong>经验总结：</strong></p><ul><li><p>相对于正常数据集，如果Batch_Size过小，训练数据就会非常难收敛，从而导致underfitting。</p></li><li><p>增大Batch_Size,相对处理速度加快。</p></li><li><p>增大Batch_Size,所需内存容量增加（epoch的次数需要增加以达到最好的结果）</p></li><li><p>这里我们发现上面两个矛盾的问题，因为当epoch增加以后同样也会导致耗时增加从而速度下降。因此我们需要寻找最好的Batch_Size。</p></li><li><p>Batch_Size的正确选择是为了在内存效率和内存容量之间寻找最佳平衡。</p></li></ul><p>深度学习中经常看到epoch、iteration和batchsize，下面按照自己的理解说说这三个区别：<br>（1）batchsize：批大小。在深度学习中，一般采用SGD训练，即每次训练在训练集中取<strong>batchsize</strong>个样本训练；<br>（2）iteration：1个iteration等于使用batchsize个样本训练一次；<br>（3）epoch：1个epoch等于使用训练集中的全部样本训练一次；</p><p><strong>例子：</strong></p><p>训练集有1000个样本，batchsize&#x3D;10，那么：<br>训练完整个样本集需要：100次iteration，1次epoch。</p>]]></content>
     
     
     <categories>

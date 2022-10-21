@@ -33,12 +33,12 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201642298.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201649145.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201719995.png">
-<meta property="og:image" content="c:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20221020172136500.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210211030817.png">
 <meta property="og:image" content="https://github.com/zikers/image_store/blob/main/img/202210201749430.png?raw=true">
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201736840.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/zikers/image_store/main/img/202210201735879.png">
 <meta property="article:published_time" content="2022-10-20T09:55:30.000Z">
-<meta property="article:modified_time" content="2022-10-20T09:57:37.985Z">
+<meta property="article:modified_time" content="2022-10-21T04:47:27.964Z">
 <meta property="article:author" content="Zikers">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -328,7 +328,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：5 分钟前
+                    本文最后更新于：3 小时前
                   
                 
               </p>
@@ -417,7 +417,7 @@
 <ul>
 <li>第三步和第四步是将分数除以8(8是论文中使用的键向量的维数64的平方根，这会让梯度更稳定。即论文中根号下V，然后通过softmax传递结果。softmax的作用是使所有单词的分数归一化，得到的分数都是正值且和为1。</li>
 </ul>
-<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20221020172136500.png" srcset="/img/loading.gif" lazyload alt="image-20221020172136500"></p>
+<p><img src="https://raw.githubusercontent.com/zikers/image_store/main/img/202210211030817.png" srcset="/img/loading.gif" lazyload alt="image-20221020172136500"></p>
 <p>这个softmax分数决定了每个单词对编码当下位置（“Thinking”）的贡献。显然，已经在这个位置上的单词将获得最高的softmax分数，但有时关注另一个与当前单词相关的单词也会有帮助。</p>
 <ul>
 <li><p>第五步是将每个值向量乘以softmax分数(这是为了准备之后将它们求和)。这里的直觉是希望关注语义上相关的单词，并弱化不相关的单词(例如，让它们乘以0.001这样的小数)。</p>
